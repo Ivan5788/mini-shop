@@ -4,6 +4,21 @@ import router from './router'
 import { createPinia } from 'pinia'
 
 const app = createApp(App)
+const pinia = createPinia()
+
+app.use(pinia)
 app.use(router)
-app.use(createPinia())
 app.mount('#app')
+
+import { useCartStore } from './store/cart'
+import { useWishlistStore } from './store/wishlist'
+
+const cartStore = useCartStore()
+cartStore.$subscribe((_, state) => {
+  localStorage.setItem('cart', JSON.stringify(state.items))
+})
+
+const wishlistStore = useWishlistStore()
+wishlistStore.$subscribe((_, state) => {
+  localStorage.setItem('wishlist', JSON.stringify(state.items))
+})

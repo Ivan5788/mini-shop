@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useWishlistStore = defineStore('wishlist', {
   state: () => ({
-    items: []
+    items: JSON.parse(localStorage.getItem('wishlist')) || []
   }),
   actions: {
     toggle(product) {

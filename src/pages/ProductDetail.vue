@@ -9,7 +9,12 @@
         <p class="text-muted">分類：{{ product.category }}</p>
         <p class="h5 text-primary">NT$ {{ product.price }}</p>
         <p>{{ product.description }}</p>
-        <button class="btn btn-primary me-2" @click="cartStore.addToCart(product)">加入購物車</button>
+        <div class="mb-3">
+          <label for="qty" class="form-label">數量</label>
+          <input type="number" id="qty" class="form-control" v-model.number="quantity" min="1" />
+        </div>
+        <button class="btn btn-primary me-2" @click="addToCart">加入購物車</button>
+
         <button class="btn btn-outline-danger" @click="wishlistStore.toggle(product)">
           <span v-if="wishlistStore.isFavorited(product.id)">❤️ 已收藏</span>
           <span v-else>🤍 收藏</span>
@@ -27,10 +32,21 @@ import { useCartStore } from '../store/cart'
 import { useWishlistStore } from '../store/wishlist'
 
 const route = useRoute()
+const quantity = ref(1)
 const cartStore = useCartStore()
 const wishlistStore = useWishlistStore()
 
+
 const product = ref(null)
+
+function addToCart() {
+  if (quantity.value < 1) {
+    alert('數量至少為1')
+    return
+  }
+  cartStore.addToCart({ ...product.value, quantity: quantity.value })
+  alert(`已加入購物車：${quantity.value} 件`)
+}
 
 onMounted(async () => {
   const res = await axios.get('./products.json')

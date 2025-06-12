@@ -33,28 +33,19 @@
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 import ProductCard from '../components/ProductCard.vue'
+import { useProductStore } from '../store/product'
 
-const products = ref([])
+const store = useProductStore()
+
 const search = ref('')
 const category = ref('')
 
-onMounted(async () => {
-  try {
-    const res = await axios.get('./products.json')
-    console.log('資料載入成功：', res.data)
-    products.value = res.data
-  } catch (err) {
-    console.error('載入 products.json 失敗:', err)
-  }
-})
-
-
-// 搜尋 + 分類篩選
 const filteredProducts = computed(() =>
-  products.value.filter((p) =>
+  store.products.filter((p) =>
     p.name.toLowerCase().includes(search.value.toLowerCase()) &&
     (category.value === '' || p.category === category.value)
   )
 )
+
 
 </script>

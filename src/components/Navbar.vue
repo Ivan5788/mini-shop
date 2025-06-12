@@ -16,10 +16,16 @@
             <router-link to="/wishlist" class="nav-link active" aria-current="page" href="#">❤️ 收藏清單</router-link>
           </li>
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        <!-- 登入 -->
+        <span v-if="user" class="me-3">
+          歡迎，{{ user.username }} |
+          <button @click="logout">登出</button>
+        </span>
+        <span v-else class="me-3">
+          <router-link to="/auth">登入 / 註冊</router-link>
+        </span>
+        <!-- 後台 -->
+        <router-link to="/admin" class="btn btn-outline-secondary">進入後台</router-link>
       </div>
     </div>
   </nav>
@@ -27,10 +33,19 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useUserStore } from '../store/user'
 import { useCartStore } from '../store/cart'
 
 const cartStore = useCartStore()
 const cartCount = computed(() =>
   cartStore.items.reduce((sum, item) => sum + item.quantity, 0)
 )
+
+const userStore = useUserStore()
+const user = computed(() => userStore.currentUser)
+
+function logout() {
+  userStore.logout()
+}
+
 </script>
