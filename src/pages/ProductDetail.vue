@@ -33,7 +33,7 @@ const wishlistStore = useWishlistStore()
 const product = ref(null)
 
 onMounted(async () => {
-  const res = await axios.get('/products.json')
+  const res = await axios.get('./products.json')
   const all = res.data
   product.value = all.find(p => p.id === parseInt(route.params.id))
 })

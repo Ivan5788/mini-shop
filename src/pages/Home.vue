@@ -40,7 +40,7 @@ const category = ref('')
 
 onMounted(async () => {
   try {
-    const res = await axios.get('/products.json')
+    const res = await axios.get('./products.json')
     console.log('資料載入成功：', res.data)
     products.value = res.data
   } catch (err) {
