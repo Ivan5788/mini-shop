@@ -6,15 +6,18 @@ export const useWishlistStore = defineStore('wishlist', {
   }),
   actions: {
     toggle(product) {
-      const exists = this.items.find(item => item.id === product.id)
-      if (exists) {
-        this.items = this.items.filter(item => item.id !== product.id)
+      const index = this.items.findIndex(p => p.id === product.id)
+      if (index >= 0) {
+        this.items.splice(index, 1)
       } else {
         this.items.push(product)
       }
     },
-    isFavorited(productId) {
-      return this.items.some(item => item.id === productId)
+    isFavorited(id) {
+      return this.items.some(p => p.id === id)
+    },
+    clear() {
+      this.items = []
     }
   }
 })

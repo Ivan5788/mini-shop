@@ -1,57 +1,67 @@
 <template>
   <div class="container py-4">
-    <h2 class="mb-4">結帳資料</h2>
-    <form @submit.prevent="submitOrder" class="row g-3">
-      <div class="col-md-6">
-        <label for="name" class="form-label">姓名</label>
-        <input v-model="form.name" type="text" id="name" class="form-control" required />
-      </div>
-      <div class="col-md-6">
-        <label for="email" class="form-label">Email</label>
-        <input v-model="form.email" type="email" id="email" class="form-control" required />
-      </div>
-      <div class="col-12">
-        <label for="address" class="form-label">地址</label>
-        <input v-model="form.address" type="text" id="address" class="form-control" required />
-      </div>
-      <div class="col-12">
-        <label class="form-label">付款方式</label>
-        <select v-model="form.payment" class="form-select" required>
-          <option value="">請選擇</option>
-          <option value="credit">信用卡</option>
-          <option value="cod">貨到付款</option>
-        </select>
-      </div>
-      <div class="col-12 text-end">
-        <button class="btn btn-success" type="submit">送出訂單</button>
-      </div>
-    </form>
+    <h2 class="mb-4">結帳</h2>
+
+    <div v-if="cartStore.items.length === 0">
+      <p>購物車是空的，請先選購商品。</p>
+      <router-link to="/" class="btn btn-primary mt-3">返回首頁</router-link>
+    </div>
+
+    <div v-else>
+      <h4 class="mb-3">訂單內容</h4>
+      <ul class="list-group mb-4">
+        <li class="list-group-item d-flex justify-content-between align-items-center" v-for="item in cartStore.items" :key="item.id">
+          <div>
+            {{ item.name }} × {{ item.quantity }}
+          </div>
+          <div>NT$ {{ item.price * item.quantity }}</div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <strong>總計</strong>
+          <strong>NT$ {{ total }}</strong>
+        </li>
+      </ul>
+
+      <h4 class="mb-3">收件資訊</h4>
+      <form @submit.prevent="submitOrder">
+        <div class="mb-3">
+          <label class="form-label">姓名</label>
+          <input v-model="form.name" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">電話</label>
+          <input v-model="form.phone" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">地址</label>
+          <input v-model="form.address" class="form-control" required />
+        </div>
+        <button class="btn btn-success">送出訂單</button>
+      </form>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed } from 'vue'
 import { useCartStore } from '../store/cart'
+import { useRouter } from 'vue-router'
 
-const router = useRouter()
 const cartStore = useCartStore()
+const router = useRouter()
 
 const form = ref({
   name: '',
-  email: '',
-  address: '',
-  payment: ''
+  phone: '',
+  address: ''
 })
 
-const submitOrder = () => {
-  if (cartStore.items.length === 0) {
-    alert('購物車是空的！')
-    return
-  }
+const total = computed(() =>
+  cartStore.items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+)
 
-  // 模擬送出
-  alert(`感謝您的訂購，${form.value.name}！`)
+const submitOrder = () => {
+  alert('✅ 訂單已送出！感謝您的購買 🙏')
   cartStore.clearCart()
   router.push('/')
 }

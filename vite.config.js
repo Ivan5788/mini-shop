@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  base: '/mini-shop/', // ← 這裡填「你的 repo 名稱」前後加斜線
+  plugins: [vue()]
 })
