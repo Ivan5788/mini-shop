@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "純棉白T",
+    "price": 399,
+    "image": "https://picsum.photos/200",
+    "description": "舒適純棉材質，簡約百搭。",
+    "category": "上衣"
+  },
+  {
+    "id": 2,
+    "name": "牛仔褲",
+    "price": 899,
+    "image": "https://picsum.photos/200",
+    "description": "修身剪裁，高彈力布料。",
+    "category": "褲子"
+  }
+]
