@@ -19,13 +19,29 @@
           <span v-if="wishlistStore.isFavorited(product.id)">❤️ 已收藏</span>
           <span v-else>🤍 收藏</span>
         </button>
+
+        <div v-if="relatedProducts.length" class="mt-5">
+          <h4>你可能還喜歡</h4>
+          <div class="d-flex gap-3 overflow-auto">
+            <div v-for="item in relatedProducts" :key="item.id" class="card" style="width: 150px; flex-shrink: 0;">
+              <router-link :to="`/product/${item.id}`" class="text-dark text-decoration-none">
+                <img :src="item.image" class="card-img-top" :alt="item.name" />
+                <div class="card-body p-2">
+                  <p class="card-text text-truncate">{{ item.name }}</p>
+                  <p class="fw-bold">NT$ {{ item.price }}</p>
+                </div>
+              </router-link>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
 import { useCartStore } from '../store/cart'
@@ -52,5 +68,20 @@ onMounted(async () => {
   const res = await axios.get('./products.json')
   const all = res.data
   product.value = all.find(p => p.id === parseInt(route.params.id))
+})
+
+const relatedProducts = computed(() => {
+  if (!product.value) return []
+  return allProducts.value.filter(
+    p => p.category === product.value.category && p.id !== product.value.id
+  )
+})
+
+const allProducts = ref([])
+
+onMounted(async () => {
+  const res = await axios.get('./products.json')
+  allProducts.value = res.data
+  product.value = allProducts.value.find(p => p.id === parseInt(route.params.id))
 })
 </script>
