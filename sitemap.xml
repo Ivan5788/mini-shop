@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>http://localhost:5173/</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>http://localhost:5173/productlist</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>http://localhost:5173/faq</loc>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- 若你有多個商品頁，也可以手動或自動列出 -->
+  <url>
+    <loc>http://localhost:5173/product/1</loc>
+  </url>
+  <url>
+    <loc>http://localhost:5173/product/2</loc>
+  </url>
+
+</urlset>
