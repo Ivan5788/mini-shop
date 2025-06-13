@@ -1,0 +1,24 @@
+
+:root[data-theme='light'] {
+  --main-bg: #ffffff;
+  --main-text: #212529;
+  --footer-bg: #343a40;
+  --footer-text: #f8f9fa;
+}
+
+:root[data-theme='dark'] {
+  --main-bg: #1c1c1e;
+  --main-text: #f1f1f1;
+  --footer-bg: #0d0d0d;
+  --footer-text: #ccc;
+}
+
+body {
+  background-color: var(--main-bg);
+  color: var(--main-text);
+}
+
+footer {
+  background-color: var(--footer-bg) !important;
+  color: var(--footer-text) !important;
+}
